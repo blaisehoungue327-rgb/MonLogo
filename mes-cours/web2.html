@@ -1,0 +1,81 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+     .typewriter {
+      overflow: hidden;
+      border-right: 3px solid #6300a0;
+      white-space: nowrap;
+      font-family: 'Montserrat', monospace;
+      font-size: clamp(1.2rem, 5vw, 2rem);
+      color: #6300a0;
+      width: 0;
+      animation: 
+        ecrire 6s steps(25, end) infinite,
+        clignoter .7s step-end infinite;
+    }
+    @keyframes ecrire {
+      0%{width: 0;}
+      40%{width: 100%;}
+      60%{width: 100%;}
+      100%{width: 0;}
+    }
+    @keyframes clignoter{
+      from,to { border-color: transparent;}
+      50%{border-color: #6300a0;}
+    }
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      background: #6300a0;
+      color: white;
+      padding: 10px 0;
+    }
+    .marquee p{
+      white-space: nowrap;
+      display: inline-block;
+      animation: defilement 10s linear infinite;
+    }
+    @keyframes defilement{
+      from{
+        transform: translateX(100%);
+      }
+      to{
+        transform: translateX(-100%);
+      }
+    } 
+      .marquee-1{
+      overflow: hidden;
+     }
+     .marquee-content{
+      display: flex;
+      width: 200%;
+      animation: defilement-2 15s linear infinite;
+     }
+     .marquee-content span{ width: 50%;}
+     @keyframes defilement-2 {
+      from{ transform: translateX(0);}
+      to{ transform: translateX(-50%);}
+     } 
+  </style>
+</head>
+
+<body>
+  <h1 class="typewriter">Bonjour tout le monde 👋🏽 !</h1>
+  <hr>
+  <div class="marquee">
+    <p>Bonjour le tout monde ✌🏽 Bienvenue sur mon site</p>
+  </div>
+  <hr>
+  <div class="marquee-1">
+    <div class="marquee-content">
+      <span>Bonjour tout le monde ✌🏽 Bienvenue sur mon site, je suis developpeur</span>
+      <span>Bonjour tout le monde ✌🏽 Bienvenue sur mon site, je suis developpeur</span>
+    </div>
+  </div>
+ 
+</body>
+</html>
