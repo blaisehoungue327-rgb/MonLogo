@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LearnHub — Apprenez. Progressez. Réussissez.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0;  }
+
+    :root {
+      --ink:      #0D0F1A;
+      --ink-soft: #3A3D52;
+      --mist:     #F5F6FA;
+      --white:    #FFFFFF;
+      --primary:  #4F46E5;
+      --primary-light: #818CF8;
+      --accent:   #F59E0B;
+      --green:    #10B981;
+      --border:   #E2E4EF;
+      --radius:   14px;
+      --shadow:   0 4px 24px rgba(13,15,26,.08);
+    }
+    html,body{
+      max-width: 100%;
+      /* overflow-x: hidden; */
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--ink); background: var(--white); line-height: 1.6; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 68px;
+      background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--ink-soft); font-size: .9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-actions { display: flex; gap: .75rem; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: .4rem; padding: .55rem 1.25rem; border-radius: 8px; font-weight: 600; font-size: .875rem; cursor: pointer; border: none; transition: all .2s; text-decoration: none; }
+    .btn-ghost { background: transparent; color: var(--ink); }
+    .btn-ghost:hover { background: var(--mist); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: #4338CA; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,.35); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh; display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 4rem; padding: 5rem 5% 4rem;
+      background: linear-gradient(135deg, #F0F1FF 0%, #FFF 55%, #FFF8EC 100%);
+    }
+    .hero-tag { display: inline-flex; align-items: center; gap: .5rem; background: #EEF2FF; color: var(--primary); font-size: .8rem; font-weight: 600; padding: .35rem .9rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .hero-tag::before { content: ''; width: 7px; height: 7px; background: var(--primary); border-radius: 50%; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.4rem, 4.5vw, 3.6rem); font-weight: 800; line-height: 1.1; letter-spacing: -2px; margin-bottom: 1.25rem; }
+    .hero h1 em { font-style: normal; color: var(--primary); }
+    .hero p { color: var(--ink-soft); font-size: 1.05rem; max-width: 480px; margin-bottom: 2rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-xl { padding: .85rem 2rem; font-size: 1rem; border-radius: 10px; }
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .hero-stat strong { display: block; font-family: 'Syne', sans-serif; font-size: 1.75rem; font-weight: 800; color: var(--ink); }
+    .hero-stat span { font-size: .8rem; color: var(--ink-soft); font-weight: 500; }
+    .hero-visual { position: relative; }
+    .hero-card-stack { display: grid; gap: 1rem; }
+    .course-card-mini {
+      background: #fff; border-radius: var(--radius); padding: 1.25rem 1.4rem;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1rem;
+      transition: transform .3s;
+    }
+    .course-card-mini:hover { transform: translateX(6px); }
+    .card-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .card-icon.purple { background: #EEF2FF; }
+    .card-icon.orange { background: #FFF7ED; }
+    .card-icon.green  { background: #ECFDF5; }
+    .card-info { flex: 1; }
+    .card-info h4 { font-size: .9rem; font-weight: 600; margin-bottom: .2rem; }
+    .card-info p  { font-size: .78rem; color: var(--ink-soft); }
+    .progress-bar { height: 4px; background: var(--mist); border-radius: 4px; margin-top: .5rem; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; background: var(--primary); }
+    .badge-new { font-size: .65rem; font-weight: 700; background: var(--accent); color: #fff; padding: .15rem .5rem; border-radius: 4px; }
+
+    /* ── SECTION LABEL ── */
+    .section-label { text-align: center; margin-bottom: 3.5rem; }
+    .eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--primary); margin-bottom: .6rem; }
+    .section-label h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -1px; }
+    .section-label p { color: var(--ink-soft); max-width: 520px; margin: .75rem auto 0; }
+
+    /* ── CATEGORIES ── */
+    .categories { padding: 5rem 5%; background: var(--white); }
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; }
+    .cat-item {
+      border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.4rem 1rem;
+      text-align: center; cursor: pointer; transition: all .2s; text-decoration: none; color: var(--ink);
+    }
+    .cat-item:hover { border-color: var(--primary); background: #F5F3FF; transform: translateY(-3px); }
+    .cat-icon { font-size: 1.9rem; margin-bottom: .6rem; }
+    .cat-item h3 { font-size: .9rem; font-weight: 600; margin-bottom: .2rem; }
+    .cat-item span { font-size: .75rem; color: var(--ink-soft); }
+
+    /* ── COURSES ── */
+    .courses { padding: 5rem 5%; background: var(--mist); }
+    .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .course-card {
+      background: #fff; border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .course-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(13,15,26,.13); }
+    .course-thumb {
+      height: 160px; display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .thumb-purple { background: linear-gradient(135deg, #818CF8, #4F46E5); }
+    .thumb-orange { background: linear-gradient(135deg, #FCD34D, #F59E0B); }
+    .thumb-green  { background: linear-gradient(135deg, #34D399, #10B981); }
+    .thumb-pink   { background: linear-gradient(135deg, #F9A8D4, #EC4899); }
+    .thumb-blue   { background: linear-gradient(135deg, #7DD3FC, #3B82F6); }
+    .thumb-red    { background: linear-gradient(135deg, #FCA5A5, #EF4444); }
+    .course-body { padding: 1.25rem; }
+    .course-meta { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; font-size: .75rem; color: var(--ink-soft); }
+    .course-meta .dot { width: 3px; height: 3px; background: var(--border); border-radius: 50%; }
+    .level { font-size: .7rem; font-weight: 700; padding: .15rem .5rem; border-radius: 4px; }
+    .level.deb  { background: #ECFDF5; color: #059669; }
+    .level.int  { background: #FFF7ED; color: #D97706; }
+    .level.adv  { background: #FFF1F2; color: #E11D48; }
+    .course-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: .4rem; }
+    .course-body p  { font-size: .82rem; color: var(--ink-soft); margin-bottom: 1rem; }
+    .course-footer { display: flex; align-items: center; justify-content: space-between; }
+    .instructor { display: flex; align-items: center; gap: .4rem; font-size: .78rem; font-weight: 500; }
+    .avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 700; }
+    .stars { color: #F59E0B; font-size: .8rem; }
+
+    /* ── FEATURES ── */
+    .features { padding: 5rem 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .feature-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .feat { display: flex; gap: 1rem; }
+    .feat-icon { width: 44px; height: 44px; border-radius: 10px; background: #EEF2FF; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .feat h4 { font-weight: 700; margin-bottom: .25rem; }
+    .feat p  { font-size: .85rem; color: var(--ink-soft); }
+    .feature-visual {
+      background: linear-gradient(145deg, #EEF2FF, #F5F6FA);
+      border-radius: 20px; padding: 2.5rem; text-align: center;
+    }
+    .cert-preview { background: #fff; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border); }
+    .cert-preview .cert-top { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+    .cert-logo { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--primary); }
+    .cert-preview h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: .4rem; }
+    .cert-preview p { font-size: .82rem; color: var(--ink-soft); }
+    .cert-seal { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { padding: 5rem 5%; background: var(--mist); }
+    .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem; }
+    .test-card { background: #fff; border-radius: var(--radius); padding: 1.5rem; border: 1px solid var(--border); }
+    .test-card p { font-size: .88rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 1rem; }
+    .test-author { display: flex; align-items: center; gap: .75rem; }
+    .test-author .avatar { width: 36px; height: 36px; font-size: .8rem; }
+    .test-author strong { font-size: .88rem; }
+    .test-author span { font-size: .75rem; color: var(--ink-soft); }
+
+    /* ── PRICING ── */
+    .pricing { padding: 5rem 5%; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+    .price-card { border-radius: var(--radius); padding: 2rem; border: 1.5px solid var(--border); position: relative; }
+    .price-card.featured { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .price-tag { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; margin: 1rem 0 .25rem; }
+    .price-tag sub { font-size: 1rem; font-weight: 500; }
+    .price-card h3 { font-size: 1rem; font-weight: 700; }
+    .price-card > p { font-size: .82rem; color: var(--ink-soft); margin-bottom: 1.5rem; }
+    .price-card.featured > p { color: rgba(255,255,255,.75); }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: .6rem; margin-bottom: 2rem; }
+    .price-features li { font-size: .85rem; display: flex; align-items: center; gap: .5rem; }
+    .price-features li::before { content: '✓'; font-weight: 800; color: var(--green); }
+    .price-card.featured .price-features li::before { color: #6EE7B7; }
+    .price-card.featured .btn { background: #fff; color: var(--primary); }
+    .popular-badge { position: absolute; top: -12px; right: 20px; background: var(--accent); color: #fff; font-size: .7rem; font-weight: 700; padding: .2rem .7rem; border-radius: 100px; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      margin: 0 5% 4rem; border-radius: 20px; padding: 4rem;
+      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+      color: #fff; text-align: center;
+    }
+    .cta-banner h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -1px; margin-bottom: .75rem; }
+    .cta-banner p { opacity: .8; max-width: 480px; margin: 0 auto 2rem; }
+    .btn-white { background: #fff; color: var(--primary); }
+    .btn-white:hover { background: #F0EEFF; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); color: rgba(255,255,255,.6); padding: 4rem 5% 2rem; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .logo { color: #fff; }
+    .footer-brand p { font-size: .85rem; margin-top: .75rem; max-width: 260px; }
+    footer h5 { color: #fff; font-size: .85rem; font-weight: 700; margin-bottom: 1rem; }
+    footer ul { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    footer ul a { color: rgba(255,255,255,.55); text-decoration: none; font-size: .83rem; transition: color .2s; }
+    footer ul a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: .78rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 3rem; }
+      .hero-visual { display: none; }
+      .features { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .footer-top { grid-template-columns: 1fr; }
+      .cta-banner { padding: 2.5rem 1.5rem; }
+      .hero-stats { gap: 1.25rem; }
+      .nav-actions{
+        /* flex-direction: column; */
+      }
+      /* flex-wrap: wrap; */
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Learn<span>Hub</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Formations</a></li>
+    <li><a href="#">Parcours</a></li>
+    <li><a href="#">Certifications</a></li>
+    <li><a href="#">Entreprises</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn btn-ghost">Connexion</a>
+    <a href="#" class="btn btn-primary">Commencer gratuitement</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">🎓 Plus de 50 000 apprenants actifs</div>
+    <h1>Développez vos compétences,<br/><em>changez votre avenir</em></h1>
+    <p>Des formations en ligne créées par des experts du secteur, avec des projets concrets et des certifications reconnues par les recruteurs.</p>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-primary btn-xl">Explorer les formations</a>
+      <a href="#" class="btn btn-ghost btn-xl">Voir la démo →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>800+</strong><span>Cours disponibles</span></div>
+      <div class="hero-stat"><strong>94%</strong><span>Taux de satisfaction</span></div>
+      <div class="hero-stat"><strong>12k+</strong><span>Emplois décrochés</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="course-card-mini">
+        <div class="card-icon purple">⚛️</div>
+        <div class="card-info">
+          <h4>React & Next.js</h4>
+          <p>Développement Web Frontend</p>
+          <div class="progress-bar"><div class="progress-fill" style="width:68%"></div></div>
+        </div>
+        <span>68%</span>
+      </div>
+      <div class="course-card-mini">
+        <div class="card-icon orange">🤖</div>
+        <div class="card-info">
+          <h4>Intelligence Artificielle</h4>
+          <p>Machine Learning & Python</p>
+          <div class="progress-bar"><div class="progress-fill" style="width:42%;background:#F59E0B"></div></div>
+        </div>
+        <span class="badge-new">NEW</span>
+      </div>
+      <div class="course-card-mini">
+        <div class="card-icon green">🎨</div>
+        <div class="card-info">
+          <h4>UX/UI Design</h4>
+          <p>Figma & Design System</p>
+          <div class="progress-bar"><div class="progress-fill" style="width:90%;background:#10B981"></div></div>
+        </div>
+        <span>90%</span>
+      </div>
+      <div class="course-card-mini">
+        <div class="card-icon purple">📊</div>
+        <div class="card-info">
+          <h4>Data Science</h4>
+          <p>Analyse & Visualisation</p>
+          <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+        </div>
+        <span>25%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="section-label">
+    <p class="eyebrow">Explorez par domaine</p>
+    <h2>Quelle compétence voulez-vous acquérir ?</h2>
+    <p>Choisissez parmi nos domaines de formation et commencez votre parcours dès aujourd'hui.</p>
+  </div>
+  <div class="cat-grid">
+    <a href="#" class="cat-item"><div class="cat-icon">💻</div><h3>Développement Web</h3><span>148 cours</span></a>
+    <a href="#" class="cat-item"><div class="cat-icon">🤖</div><h3>Intelligence Artificielle</h3><span>62 cours</span></a>
+    <a href="#" class="cat-item"><div class="cat-icon">🎨</div><h3>Design & UX</h3><span>97 cours</span></a>
+    <a href="#" class="cat-item"><div class="cat-icon">📊</div><h3>Data Science</h3><span>81 cours</span></a>
+    <a href="#" class="cat-item"><div class="cat-icon">☁️</div><h3>Cloud & DevOps</h3><span>54 cours</span></a>
+    <a href="#" class="cat-item"><div class="cat-icon">🔐</div><h3>Cybersécurité</h3><span>39 cours</span></a>
+    <a href="#" class="cat-item"><div class="cat-icon">📱</div><h3>Mobile & Apps</h3><span>46 cours</span></a>
+    <a href="#" class="cat-item"><div class="cat-icon">🚀</div><h3>Product & Agile</h3><span>33 cours</span></a>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section class="courses">
+  <div class="section-label">
+    <p class="eyebrow">Formations populaires</p>
+    <h2>Les formations les plus suivies en ce moment</h2>
+    <p>Nos cours les plus appréciés par la communauté, régulièrement mis à jour.</p>
+  </div>
+  <div class="courses-grid">
+
+    <div class="course-card">
+      <div class="course-thumb thumb-purple">⚛️</div>
+      <div class="course-body">
+        <div class="course-meta"><span class="level deb">Débutant</span><span class="dot"></span><span>42h de contenu</span><span class="dot"></span><span>12 projets</span></div>
+        <h3>Développeur React & Next.js</h3>
+        <p>Maîtrisez le développement d'applications modernes avec React, hooks, et le routing Next.js.</p>
+        <div class="course-footer">
+          <div class="instructor"><div class="avatar">SA</div>Sophie A.</div>
+          <div class="stars">★★★★★ <span style="color:var(--ink-soft);font-size:.75rem">(1 240)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb thumb-orange">🤖</div>
+      <div class="course-body">
+        <div class="course-meta"><span class="level int">Intermédiaire</span><span class="dot"></span><span>58h de contenu</span><span class="dot"></span><span>8 projets</span></div>
+        <h3>Machine Learning avec Python</h3>
+        <p>De la régression linéaire aux réseaux de neurones — construisez vos premiers modèles ML.</p>
+        <div class="course-footer">
+          <div class="instructor"><div class="avatar" style="background:#F59E0B">KM</div>Karim M.</div>
+          <div class="stars">★★★★☆ <span style="color:var(--ink-soft);font-size:.75rem">(876)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb thumb-green">🎨</div>
+      <div class="course-body">
+        <div class="course-meta"><span class="level deb">Débutant</span><span class="dot"></span><span>34h de contenu</span><span class="dot"></span><span>6 projets</span></div>
+        <h3>UX Design & Figma</h3>
+        <p>Créez des interfaces centrées sur l'utilisateur, prototypez et testez vos designs en équipe.</p>
+        <div class="course-footer">
+          <div class="instructor"><div class="avatar" style="background:#10B981">LD</div>Laure D.</div>
+          <div class="stars">★★★★★ <span style="color:var(--ink-soft);font-size:.75rem">(2 108)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb thumb-blue">☁️</div>
+      <div class="course-body">
+        <div class="course-meta"><span class="level int">Intermédiaire</span><span class="dot"></span><span>50h de contenu</span><span class="dot"></span><span>10 projets</span></div>
+        <h3>AWS Cloud Practitioner</h3>
+        <p>Préparez votre certification AWS en comprenant les services cloud fondamentaux.</p>
+        <div class="course-footer">
+          <div class="instructor"><div class="avatar" style="background:#3B82F6">YB</div>Yosef B.</div>
+          <div class="stars">★★★★★ <span style="color:var(--ink-soft);font-size:.75rem">(534)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb thumb-pink">📱</div>
+      <div class="course-body">
+        <div class="course-meta"><span class="level deb">Débutant</span><span class="dot"></span><span>38h de contenu</span><span class="dot"></span><span>5 projets</span></div>
+        <h3>Développement Flutter</h3>
+        <p>Créez des applications iOS et Android avec un seul code base en Dart et Flutter.</p>
+        <div class="course-footer">
+          <div class="instructor"><div class="avatar" style="background:#EC4899">AN</div>Amina N.</div>
+          <div class="stars">★★★★☆ <span style="color:var(--ink-soft);font-size:.75rem">(722)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb thumb-red">🔐</div>
+      <div class="course-body">
+        <div class="course-meta"><span class="level adv">Avancé</span><span class="dot"></span><span>65h de contenu</span><span class="dot"></span><span>15 projets</span></div>
+        <h3>Cybersécurité & Ethical Hacking</h3>
+        <p>Comprenez les vulnérabilités système et apprenez à protéger les infrastructures critiques.</p>
+        <div class="course-footer">
+          <div class="instructor"><div class="avatar" style="background:#EF4444">TL</div>Thomas L.</div>
+          <div class="stars">★★★★★ <span style="color:var(--ink-soft);font-size:.75rem">(463)</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div>
+    <p class="eyebrow" style="display:block;margin-bottom:.6rem">Pourquoi LearnHub ?</p>
+    <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;letter-spacing:-1px;margin-bottom:.75rem">Une expérience d'apprentissage pensée pour vous réussir</h2>
+    <p style="color:var(--ink-soft);margin-bottom:2.5rem">Nous combinons théorie, pratique et accompagnement humain pour que vous progressiez vraiment.</p>
+    <div class="feature-list">
+      <div class="feat"><div class="feat-icon">🎯</div><div><h4>Projets concrets</h4><p>Chaque formation inclut des projets réels que vous pouvez montrer à vos futurs employeurs.</p></div></div>
+      <div class="feat"><div class="feat-icon">👨‍💼</div><div><h4>Mentors disponibles</h4><p>Un mentor dédié répond à vos questions sous 24h et corrige vos projets avec des retours détaillés.</p></div></div>
+      <div class="feat"><div class="feat-icon">📜</div><div><h4>Certifications reconnues</h4><p>Nos certificats sont validés par des entreprises partenaires comme TotalEnergies, Orange et BNP.</p></div></div>
+      <div class="feat"><div class="feat-icon">📱</div><div><h4>Apprenez où vous voulez</h4><p>Accédez à vos cours depuis n'importe quel appareil, même hors ligne avec notre application mobile.</p></div></div>
+    </div>
+  </div>
+  <div class="feature-visual">
+    <div class="cert-preview">
+      <div class="cert-top">
+        <div class="cert-logo">LearnHub</div>
+        <div class="cert-seal">🏆</div>
+      </div>
+      <p style="font-size:.75rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:.4rem">Certificat de réussite</p>
+      <h3>Développeur Web Full Stack</h3>
+      <p style="margin-top:.4rem;margin-bottom:1.25rem">Délivré à <strong style="color:var(--ink)">Marie Dupont</strong> — 15 juin 2025</p>
+      <div style="height:1px;background:var(--border);margin-bottom:1.25rem"></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:var(--ink-soft)">
+        <span>🕐 320 heures</span>
+        <span>📁 12 projets</span>
+        <span>✅ Validé par mentor</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">
+    <p class="eyebrow">Ils en parlent mieux que nous</p>
+    <h2>Des milliers de vies professionnelles transformées</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="stars" style="margin-bottom:.75rem">★★★★★</div>
+      <p>En 6 mois sur LearnHub, j'ai pu faire une reconversion complète du marketing vers le développement web. J'ai décroché mon premier poste de développeur junior à Paris.</p>
+      <div class="test-author"><div class="avatar">CK</div><div><strong>Cédric K.</strong><br><span>Développeur Junior @ Doctolib</span></div></div>
+    </div>
+    <div class="test-card">
+      <div class="stars" style="margin-bottom:.75rem">★★★★★</div>
+      <p>Les projets pratiques m'ont permis de construire un vrai portfolio. Mon mentor était incroyablement disponible et ses retours m'ont beaucoup aidée à progresser rapidement.</p>
+      <div class="test-author"><div class="avatar" style="background:#10B981">FT</div><div><strong>Fatou T.</strong><br><span>UX Designer @ Decathlon</span></div></div>
+    </div>
+    <div class="test-card">
+      <div class="stars" style="margin-bottom:.75rem">★★★★★</div>
+      <p>La qualité des cours de Data Science est vraiment top niveau. J'ai pu apprendre à mon rythme tout en continuant mon travail, et la certification a clairement fait la différence.</p>
+      <div class="test-author"><div class="avatar" style="background:#F59E0B">RL</div><div><strong>Romain L.</strong><br><span>Data Analyst @ AXA</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="section-label">
+    <p class="eyebrow">Nos offres</p>
+    <h2>Un plan adapté à votre situation</h2>
+    <p>Commencez gratuitement, évoluez selon vos besoins.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <h3>Gratuit</h3>
+      <div class="price-tag"><sub>€</sub>0<sub>/mois</sub></div>
+      <p>Pour découvrir la plateforme et tester quelques cours.</p>
+      <ul class="price-features">
+        <li>Accès à 50 cours gratuits</li>
+        <li>Forum communautaire</li>
+        <li>Certificats de complétion</li>
+      </ul>
+      <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center">Commencer gratuitement</a>
+    </div>
+    <div class="price-card featured">
+      <div class="popular-badge">⭐ Populaire</div>
+      <h3 style="color:#fff">Pro</h3>
+      <div class="price-tag" style="color:#fff"><sub>€</sub>29<sub>/mois</sub></div>
+      <p>Pour les apprenants sérieux qui veulent progresser vite.</p>
+      <ul class="price-features">
+        <li>Accès illimité à 800+ cours</li>
+        <li>1 mentor dédié par parcours</li>
+        <li>Certifications reconnues</li>
+        <li>Accès hors ligne</li>
+        <li>Support prioritaire</li>
+      </ul>
+      <a href="#" class="btn btn-white btn-xl" style="width:100%;justify-content:center">Essai gratuit 14 jours</a>
+    </div>
+    <div class="price-card">
+      <h3>Entreprise</h3>
+      <div class="price-tag">Sur devis</div>
+      <p>Pour former vos équipes avec un suivi personnalisé.</p>
+      <ul class="price-features">
+        <li>Tout du plan Pro</li>
+        <li>Tableau de bord RH</li>
+        <li>Parcours sur-mesure</li>
+        <li>Facturation centralisée</li>
+        <li>Account manager dédié</li>
+      </ul>
+      <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Prêt à changer votre avenir ?</h2>
+  <p>Rejoignez 50 000 apprenants qui ont déjà fait le choix d'apprendre autrement. Le premier cours est gratuit.</p>
+  <a href="#" class="btn btn-white btn-xl">Créer mon compte gratuitement →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">Learn<span style="color:var(--accent)">Hub</span></div>
+      <p>La plateforme de formation en ligne qui vous donne les clés pour réussir votre carrière dans le numérique.</p>
+    </div>
+    <div>
+      <h5>Formations</h5>
+      <ul>
+        <li><a href="#">Développement Web</a></li>
+        <li><a href="#">Intelligence Artificielle</a></li>
+        <li><a href="#">Design UX/UI</a></li>
+        <li><a href="#">Data Science</a></li>
+        <li><a href="#">Cybersécurité</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Entreprise</h5>
+      <ul>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Devenir formateur</a></li>
+        <li><a href="#">Partenaires</a></li>
+        <li><a href="#">Presse</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Support</h5>
+      <ul>
+        <li><a href="#">Centre d'aide</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Mentions légales</a></li>
+        <li><a href="#">Confidentialité</a></li>
+        <li><a href="#">CGU</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 LearnHub. Tous droits réservés.</span>
+    <span>Fait avec ❤️ pour les apprenants du monde entier</span>
+  </div>
+</footer>
+
+</body>
+</html>
